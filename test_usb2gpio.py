@@ -1,11 +1,19 @@
 import serial
 import time
 import os
+import platform
 
 cmd_write_high = '3A 16 01'
 cmd_read_high = '3D FF'
 usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-usb2gpio.setPort('/dev/tty.usbserial-3140')
+print(platform.system())
+if platform.system() == "Windows":
+    usb2gpio.setPort('COM17')
+elif platform.system() == "OS X":
+    usb2gpio.setPort('/dev/tty.usbserial-3140')
+else:
+    exit(1)
+
 count = 1
 while True:
     print("==== No.%d ====" % count)
@@ -26,4 +34,4 @@ while True:
         print("ERROR!!")
         break
     count += 1
-    time.sleep(10)
+    time.sleep(5)
