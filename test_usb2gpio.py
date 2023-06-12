@@ -10,7 +10,7 @@ print(platform.system())
 if platform.system() == "Windows":
     usb2gpio.setPort('COM17')
 elif platform.system() == "OS X":
-    usb2gpio.setPort('/dev/tty.usbserial-3140')
+    usb2gpio.setPort('/dev/tty.usbserial-4110')
 else:
     exit(1)
 

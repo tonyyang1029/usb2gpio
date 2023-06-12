@@ -1,38 +1,20 @@
 import serial
 import time
 import os
-import platform
 
-cmd_enable_relay = '3A 09 01'
-cmd_disable_relay = '3A 09 00'
 cmd_read_lightsensor = '3D FF'
 cmd_stop_output = '3A 09 01'
 
 usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-if platform.system() == "Windows":
-    usb2gpio.setPort('COM17')
-elif platform.system() == "OS X":
-    usb2gpio.setPort('/dev/tty.usbserial-4110')
-else:
-    exit(1)
+usb2gpio.setPort('/dev/tty.usbserial-4110')
 
 count = 1
+
 while True:
     print("==== No.%d ====" % count)
-
-    print("Power off device")
-    usb2gpio.open()
-    usb2gpio.write(bytes.fromhex(cmd_disable_relay))
-    rsp_disable_relay = usb2gpio.read(2)
-    usb2gpio.close()
-    time.sleep(20)
-
-    print("Power on device")
-    usb2gpio.open()
-    usb2gpio.write(bytes.fromhex(cmd_enable_relay))
-    rsp_enable_relay = usb2gpio.read(2)
-    usb2gpio.close()
-    time.sleep(30)
+    print("Reboot device")
+    os.system("adb reboot")
+    time.sleep(40)
 
     usb2gpio.open()
     usb2gpio.write(bytes.fromhex(cmd_read_lightsensor))
@@ -48,5 +30,5 @@ while True:
         print("ERROR!!")
         break
 
-    time.sleep(10)
+    time.sleep(5)
     count += 1

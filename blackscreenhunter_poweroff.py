@@ -17,6 +17,7 @@ else:
     exit(1)
 
 count = 1
+
 while True:
     print("==== No.%d ====" % count)
 
