@@ -1,6 +1,5 @@
 import serial
 import time
-import os
 import platform
 
 cmd_enable_relay = '3A 09 01'
@@ -11,7 +10,7 @@ cmd_stop_output = '3A 09 01'
 usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
 if platform.system() == "Windows":
     usb2gpio.setPort('COM17')
-elif platform.system() == "OS X":
+elif platform.system() == "Darwin":
     usb2gpio.setPort('/dev/tty.usbserial-4110')
 else:
     exit(1)

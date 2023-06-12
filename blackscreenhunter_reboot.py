@@ -1,12 +1,18 @@
 import serial
 import time
 import os
+import platform
 
 cmd_read_lightsensor = '3D FF'
 cmd_stop_output = '3A 09 01'
 
 usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-usb2gpio.setPort('/dev/tty.usbserial-4110')
+if platform.system() == "Windows":
+    usb2gpio.setPort('COM17')
+elif platform.system() == "Darwin":
+    usb2gpio.setPort('/dev/tty.usbserial-4110')
+else:
+    exit(1)
 
 count = 1
 
