@@ -13,6 +13,8 @@ def blackscreenhunter_screenoff():
         usb2gpio.setPort('COM17')
     elif platform.system() == "Darwin":
         usb2gpio.setPort('/dev/tty.usbserial-4110')
+    elif platform.system() == 'Linux':
+        usb2gpio.setPort('/dev/ttyUSB0')
     else:
         return
 

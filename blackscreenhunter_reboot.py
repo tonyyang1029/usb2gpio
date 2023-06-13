@@ -9,10 +9,12 @@ def blackscreenhunter_reboot():
     cmd_stop_output = '3A 09 01'
 
     usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-    if platform.system() == "Windows":
+    if platform.system() == 'Windows':
         usb2gpio.setPort('COM17')
-    elif platform.system() == "Darwin":
+    elif platform.system() == 'Darwin':
         usb2gpio.setPort('/dev/tty.usbserial-4110')
+    elif platform.system() == 'Linux':
+        usb2gpio.setPort('/dev/ttyUSB0')
     else:
         return
 
