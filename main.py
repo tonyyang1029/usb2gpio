@@ -1,51 +1,36 @@
-import serial
-import time
-import platform
+# This is a sample Python script.
+import decimal
 
-cmd_enable_relay = '3A 09 01'
-cmd_disable_relay = '3A 09 00'
-cmd_read_lightsensor = '3D FF'
-cmd_stop_output = '3A 09 01'
+# Press ⌃R to execute it or replace it with your code.
+# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 
-usb2gpio = serial.Serial(None, 115200, serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE)
-if platform.system() == "Windows":
-    usb2gpio.setPort('COM17')
-elif platform.system() == "Darwin":
-    usb2gpio.setPort('/dev/tty.usbserial-4110')
-else:
-    exit(1)
+import blackscreenhunter_screenoff
+import blackscreenhunter_reboot
+import blackscreenhunter_poweroff
 
-count = 1
-while True:
-    print("==== No.%d ====" % count)
+testmod = 0
 
-    print("Power off device")
-    usb2gpio.open()
-    usb2gpio.write(bytes.fromhex(cmd_disable_relay))
-    rsp_disable_relay = usb2gpio.read(2)
-    usb2gpio.close()
-    time.sleep(20)
 
-    print("Power on device")
-    usb2gpio.open()
-    usb2gpio.write(bytes.fromhex(cmd_enable_relay))
-    rsp_enable_relay = usb2gpio.read(2)
-    usb2gpio.close()
-    time.sleep(30)
+def choose_test_mode():
+    print('Please choose test mode:')
+    print('1. Turn off/on screen repeatedly')
+    print('2. Reboot device repeatedly')
+    print('3. Power off/on device repeatedly')
+    global testmod
+    testmod = decimal.Decimal(input('Please input 1 ~ 3: '))
+    if testmod > 3 or testmod < 1:
+        print('The test mode [%d] is not correct!!' % testmod)
+        exit(1)
 
-    usb2gpio.open()
-    usb2gpio.write(bytes.fromhex(cmd_read_lightsensor))
-    rsp_read_lightsensor = usb2gpio.read(103)
-    usb2gpio.write(bytes.fromhex(cmd_stop_output))
-    rsp_stop_output = usb2gpio.read(2)
-    usb2gpio.close()
-    # print(rsp_read_lightsensor)
-    rsp_str = rsp_read_lightsensor.decode()
-    if rsp_str.find("CH1:0") != -1:
-        print("Light On")
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    choose_test_mode()
+    if testmod == 1:
+        blackscreenhunter_screenoff.blackscreenhunter_screenoff()
+    elif testmod == 2:
+        blackscreenhunter_reboot.blackscreenhunter_reboot()
+    elif testmod == 3:
+        blackscreenhunter_poweroff.blackscreenhunter_poweroff()
     else:
-        print("ERROR!!")
-        break
-
-    time.sleep(10)
-    count += 1
+        exit(1)
