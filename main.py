@@ -7,6 +7,7 @@ import decimal
 import blackscreenhunter_screenoff
 import blackscreenhunter_reboot
 import blackscreenhunter_poweroff
+import luminancecontrolledpowerswitcher
 
 testmod = 0
 
@@ -16,9 +17,10 @@ def choose_test_mode():
     print('1. Turn off/on screen repeatedly')
     print('2. Reboot device repeatedly')
     print('3. Power off/on device repeatedly')
+    print('4. Luminance-controlled power switcher')
     global testmod
-    testmod = decimal.Decimal(input('Please input 1 ~ 3: '))
-    if testmod > 3 or testmod < 1:
+    testmod = decimal.Decimal(input('Please input 1 ~ 4: '))
+    if testmod > 4 or testmod < 1:
         print('The test mode [%d] is not correct!!' % testmod)
         exit(1)
 
@@ -32,5 +34,7 @@ if __name__ == '__main__':
         blackscreenhunter_reboot.blackscreenhunter_reboot()
     elif testmod == 3:
         blackscreenhunter_poweroff.blackscreenhunter_poweroff()
+    elif testmod == 4:
+        luminancecontrolledpowerswitcher.luminacecontrolledpowerswitcher()
     else:
         exit(1)
